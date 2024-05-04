@@ -35,22 +35,20 @@ const Index = () => {
         },
         body: JSON.stringify(moodData),
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.id) {
+            setMoods((prevMoods) => [...prevMoods, { ...moodData, id: data.id }]);
+            toast({
+              title: "Mood added",
+              description: "Your mood has been recorded.",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
           } else {
             throw new Error("Failed to add mood");
           }
-        })
-        .then((data) => {
-          setMoods((prevMoods) => [...prevMoods, { ...moodData, id: data.id }]);
-          toast({
-            title: "Mood added",
-            description: "Your mood has been recorded.",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          });
         })
         .catch((error) => {
           console.error("Error adding mood:", error);
