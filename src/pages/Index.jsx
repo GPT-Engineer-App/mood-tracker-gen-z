@@ -35,7 +35,6 @@ const Index = () => {
         },
         body: JSON.stringify(moodData),
       })
-        .then((response) => response.json())
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -44,7 +43,7 @@ const Index = () => {
           }
         })
         .then((data) => {
-          setMoods([...moods, { ...moodData, id: data.id }]);
+          setMoods((prevMoods) => [...prevMoods, { ...moodData, id: data.id }]);
           toast({
             title: "Mood added",
             description: "Your mood has been recorded.",
@@ -53,7 +52,16 @@ const Index = () => {
             isClosable: true,
           });
         })
-        .catch((error) => console.error("Error adding mood:", error));
+        .catch((error) => {
+          console.error("Error adding mood:", error);
+          toast({
+            title: "Error",
+            description: "Failed to add mood.",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+        });
       toast({
         title: "Mood added",
         description: "Your mood has been recorded.",
