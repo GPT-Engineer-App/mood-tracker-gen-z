@@ -25,7 +25,7 @@ const Index = () => {
 
   const handleAddMood = () => {
     if (editingIndex === -1) {
-      const moodData = { datetime: new Date().toISOString(), mood, description };
+      const moodData = { created_at: new Date().toISOString(), mood, description };
       fetch(supabaseUrl, {
         method: "POST",
         headers: {
@@ -63,7 +63,7 @@ const Index = () => {
       });
     } else {
       const updatedMoods = [...moods];
-      const updatedMoodData = { datetime: new Date().toISOString(), mood, description };
+      const updatedMoodData = { created_at: new Date().toISOString(), mood, description };
       fetch(`${supabaseUrl}?id=eq.${moods[editingIndex].id}`, {
         method: "PUT",
         headers: {
