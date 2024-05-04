@@ -36,8 +36,15 @@ const Index = () => {
         body: JSON.stringify(moodData),
       })
         .then((response) => response.json())
-        .then(() => {
-          setMoods([...moods, moodData]);
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Failed to add mood");
+          }
+        })
+        .then((data) => {
+          setMoods([...moods, { ...moodData, id: data.id }]);
           toast({
             title: "Mood added",
             description: "Your mood has been recorded.",
